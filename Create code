@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="todo-container">
+        <h1>My To-Do List</h1>
+        <input type="text" id="taskInput" placeholder="Enter new task" />
+        <button id="addTaskBtn">Add Task</button>
+        <ul id="taskList"></ul>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
+
+
+
+
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f5f5f5;
+}
+
+.todo-container {
+    width: 400px;
+    text-align: center;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#taskInput {
+    padding: 10px;
+    width: 80%;
+    margin: 10px 0;
+}
+
+#addTaskBtn {
+    padding: 10px;
+    width: 80%;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#taskList {
+    list-style-type: none;
+    padding: 0;
+}
+
+.task-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.task-item.completed {
+    text-decoration: line-through;
+    color: grey;
+}
+
+.delete-btn {
+    background-color: red;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+}
+
+
+
+
+
+// Event listener for adding task
+document.getElementById("addTaskBtn").addEventListener("click", addTask);
+
+// Event listener for pressing "Enter" to add task
+document.getElementById("taskInput").addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+        addTask();
+    }
+});
+
+// Add a new task
+function addTask() {
+    const taskInput = document.getElementById("taskInput");
+    const taskText = taskInput.value.trim();
+
+    // Check if the input is empty
+    if (taskText === "") {
+        alert("Please enter a task.");
+        return;
+    }
+
+    const taskList = document.getElementById("taskList");
+
+    // Create a new task item
+    const newTask = document.createElement("li");
+    newTask.classList.add("task-item");
+
+    newTask.innerHTML = `
+        <span onclick="toggleComplete(this)">${taskText}</span>
+        <button class="delete-btn" onclick="deleteTask(this)">Delete</button>
+    `;
+
+    taskList.appendChild(newTask);
+    taskInput.value = ""; // Clear input field
+}
+
+// Delete a task
+function deleteTask(button) {
+    const task = button.parentElement;
+    task.remove();
+}
+
+// Toggle task completion (mark as completed or incomplete)
+function toggleComplete(span) {
+    span.parentElement.classList.toggle("completed");
+}
